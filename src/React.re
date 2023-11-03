@@ -315,6 +315,7 @@ external null: element = "null";
 external float: float => element = "%identity";
 external int: int => element = "%identity";
 external string: string => element = "%identity";
+external unsafeArray: array(abstractElement('a)) => element = "%identity";
 external array: array(elementWithKey) => element = "%identity";
 
 [@mel.module "react"]

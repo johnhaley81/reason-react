@@ -51,7 +51,7 @@ module Binding = struct
     let array ~loc children =
       Builder.pexp_apply ~loc
         (Builder.pexp_ident ~loc
-           { txt = Longident.Ldot (Lident "React", "array"); loc })
+           { txt = Longident.Ldot (Lident "React", "unsafeArray"); loc })
         [ (nolabel, children) ]
 
     let componentLike ~loc props return =

@@ -17,6 +17,38 @@ module ComponentThatThrows = {
   };
 };
 
+module DummyComponentMultipleStaticChildrenNoKeys = {
+  [@react.component] let make = () => {
+    <div>
+      <div> "Child 1"->React.string </div>
+      <div> "Child 2"->React.string </div>
+      <div> "Child 3"->React.string </div>
+    </div>;
+  };
+}
+
+module DummyComponentMultipleStaticChildrenKeys = {
+  [@react.component] let make = () => {
+    <div>
+      <div key="123"> "Child 1"->React.string </div>
+      <div key="456"> "Child 2"->React.string </div>
+      <div key="789"> "Child 3"->React.string </div>
+    </div>;
+  };
+}
+
+// Still can't do this :/
+// module DummyComponentMultipleStaticChildrenMaybeKeys = {
+//   [@react.component] let make = () => {
+//     <div>
+//       <div key="123"> "Child 1"->React.string </div>
+//       <div> "Child 2"->React.string </div>
+//       <div key="abc"> "Child 3"->React.string </div>
+//     </div>;
+//   };
+// }
+
+
 module DummyComponentThatMapsChildren = {
   [@react.component]
   let make = (~children, ()) => {
