@@ -300,40 +300,40 @@ module Event = {
   };
 };
 
-type element('a); /* 'a captures any type information to differenciate with others 'a's */
+type abstractElement('a); /* 'a captures any type information to differenciate with others 'a's */
 
-type keyed; /* Flag to mark element('a) to be keyed */
-type not_keyed; /* Flag to mark element('a) to be not keyed */
+type keyed; /* Flag to mark abstractElement('a) to be keyed */
+type not_keyed; /* Flag to mark abstractElement('a) to be not keyed */
 
-type element_without_key = element(not_keyed);
-type element_with_key = element(keyed);
+type element = abstractElement(not_keyed);
+type element_with_key = abstractElement(keyed);
 
 type componentLike('props, 'return) = 'props => 'return;
-type component('props, 'a) = componentLike('props, element('a));
+type component('props, 'a) = componentLike('props, abstractElement('a));
 
-external null: element_without_key = "null";
-external float: float => element_without_key = "%identity";
-external int: int => element_without_key = "%identity";
-external string: string => element_without_key = "%identity";
-external array: array(element_with_key) => element_without_key = "%identity";
+external null: element = "null";
+external float: float => element = "%identity";
+external int: int => element = "%identity";
+external string: string => element = "%identity";
+external array: array(element_with_key) => element = "%identity";
 
 [@mel.module "react"]
-external createElement: (component('props, 'a), 'props) => element('a) =
+external createElement: (component('props, 'a), 'props) => abstractElement('a) =
   "createElement";
 
 [@mel.module "react"]
-external cloneElement: (element('a), 'props) => element('a) = "cloneElement";
+external cloneElement: (abstractElement('a), 'props) => abstractElement('a) = "cloneElement";
 
 [@mel.splice] [@mel.module "react"]
 external createElementVariadic:
-  (component('props, 'a), 'props, array(element('children))) => element('a) =
+  (component('props, 'a), 'props, array(abstractElement('children))) => abstractElement('a) =
   "createElement";
 
 [@mel.module "react/jsx-runtime"]
-external jsx: (component('props, 'a), 'props) => element_without_key = "jsx";
+external jsx: (component('props, 'a), 'props) => element = "jsx";
 
 [@mel.module "react/jsx-runtime"]
-external jsxs: (component('props, keyed), 'props) => element_without_key =
+external jsxs: (component('props, keyed), 'props) => element =
   "jsxs";
 
 [@mel.module "react/jsx-runtime"]
@@ -390,11 +390,11 @@ module Context = {
 
   [@mel.obj]
   external makeProps:
-    (~value: 'props, ~children: element('a), unit) =>
+    (~value: 'props, ~children: abstractElement('a), unit) =>
     {
       .
       "value": 'props,
-      "children": element('a),
+      "children": abstractElement('a),
     };
 
   [@mel.get]
@@ -404,7 +404,7 @@ module Context = {
       {
         .
         "value": 'props,
-        "children": element('a),
+        "children": abstractElement('a),
       },
       'a,
     ) =
@@ -416,7 +416,7 @@ external createContext: 'a => Context.t('a) = "createContext";
 
 [@mel.module "react"]
 external forwardRef:
-  ([@mel.uncurry] (('props, Js.Nullable.t(ref('a))) => element('a))) =>
+  ([@mel.uncurry] (('props, Js.Nullable.t(ref('a))) => abstractElement('a))) =>
   component('props, 'a) =
   "forwardRef";
 
@@ -432,36 +432,36 @@ external memoCustomCompareProps:
 module Fragment = {
   [@mel.obj]
   external makeProps:
-    (~children: element('a), unit) => {. "children": element('a)};
+    (~children: abstractElement('a), unit) => {. "children": abstractElement('a)};
 
   [@mel.module "react"]
-  external make: component({. "children": element('a)}, 'a) = "Fragment";
+  external make: component({. "children": abstractElement('a)}, 'a) = "Fragment";
 };
 
 module StrictMode = {
   [@mel.obj]
   external makeProps:
-    (~children: element('a), unit) => {. "children": element('a)};
+    (~children: abstractElement('a), unit) => {. "children": abstractElement('a)};
   [@mel.module "react"]
-  external make: component({. "children": element('a)}, 'a) = "StrictMode";
+  external make: component({. "children": abstractElement('a)}, 'a) = "StrictMode";
 };
 
 module Suspense = {
   [@mel.obj]
   external makeProps:
-    (~children: element('a)=?, ~fallback: element('a)=?, unit) =>
+    (~children: abstractElement('a)=?, ~fallback: abstractElement('a)=?, unit) =>
     {
       .
-      "children": option(element('a)),
-      "fallback": option(element('a)),
+      "children": option(abstractElement('a)),
+      "fallback": option(abstractElement('a)),
     };
   [@mel.module "react"]
   external make:
     component(
       {
         .
-        "children": option(element('a)),
-        "fallback": option(element('a)),
+        "children": option(abstractElement('a)),
+        "fallback": option(abstractElement('a)),
       },
       'a,
     ) =

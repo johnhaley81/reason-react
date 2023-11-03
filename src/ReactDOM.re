@@ -445,7 +445,7 @@ external querySelector: string => option(Dom.element) =
 module Client = {
   type root;
 
-  [@mel.send] external render: (root, React.element('a)) => unit = "render";
+  [@mel.send] external render: (root, React.abstractElement('a)) => unit = "render";
 
   [@mel.send] external unmount: (root, unit) => unit = "unmount";
 
@@ -453,18 +453,18 @@ module Client = {
   external createRoot: Dom.element => root = "createRoot";
 
   [@mel.module "react-dom/client"]
-  external hydrateRoot: (Dom.element, React.element('a)) => root =
+  external hydrateRoot: (Dom.element, React.abstractElement('a)) => root =
     "hydrateRoot";
 };
 
 [@mel.module "react-dom"]
-external render: (React.element('a), Dom.element) => unit = "render";
+external render: (React.abstractElement('a), Dom.element) => unit = "render";
 
 [@mel.module "react-dom"]
-external hydrate: (React.element('a), Dom.element) => unit = "hydrate";
+external hydrate: (React.abstractElement('a), Dom.element) => unit = "hydrate";
 
 [@mel.module "react-dom"]
-external createPortal: (React.element('a), Dom.element) => React.element('a) =
+external createPortal: (React.abstractElement('a), Dom.element) => React.abstractElement('a) =
   "createPortal";
 
 [@mel.module "react-dom"]
@@ -497,7 +497,7 @@ type domProps('a) = {
   [@mel.optional]
   ref: option(domRef),
   [@mel.optional]
-  children: option(React.element('a)),
+  children: option(React.abstractElement('a)),
   /* accessibility */
   /* https://www.w3.org/TR/wai-aria-1.1/ */
   [@mel.optional] [@mel.as "aria-activedescendant"]
@@ -1528,8 +1528,8 @@ external stringToComponent: string => React.component(domProps('a), 'a) =
 
 [@mel.variadic] [@mel.module "react"]
 external createElement:
-  (string, ~props: domProps('a)=?, array(React.element('a))) =>
-  React.element('a) =
+  (string, ~props: domProps('a)=?, array(React.abstractElement('a))) =>
+  React.abstractElement('a) =
   "createElement";
 
 [@mel.variadic] [@mel.module "react"]
@@ -1537,16 +1537,16 @@ external createDOMElementVariadic:
   (
     string,
     ~props: domProps('a)=?,
-    array(React.element('children))
+    array(React.abstractElement('children))
   ) =>
-  React.element('a) =
+  React.abstractElement('a) =
   "createElement";
 
 [@mel.module "react/jsx-runtime"]
-external jsx: (string, domProps('a)) => React.element('a) = "jsx";
+external jsx: (string, domProps('a)) => React.abstractElement('a) = "jsx";
 
 [@mel.module "react/jsx-runtime"]
-external jsxs: (string, domProps('a)) => React.element('a) = "jsxs";
+external jsxs: (string, domProps('a)) => React.abstractElement('a) = "jsxs";
 
 [@mel.module "react/jsx-runtime"]
 external jsxKeyed:
@@ -1560,10 +1560,10 @@ external jsxsKeyed:
 
 module Server = {
   [@mel.module "react-dom/server"]
-  external renderToString: React.element('a) => string = "renderToString";
+  external renderToString: React.abstractElement('a) => string = "renderToString";
 
   [@mel.module "react-dom/server"]
-  external renderToStaticMarkup: React.element('a) => string =
+  external renderToStaticMarkup: React.abstractElement('a) => string =
     "renderToStaticMarkup";
 
   [@deriving abstract]
@@ -1600,7 +1600,7 @@ module Server = {
 
   [@mel.module "react-dom/server"]
   external renderToPipeableStream:
-    (React.element('a), options) => pipeableStream =
+    (React.abstractElement('a), options) => pipeableStream =
     "renderToPipeableStream";
 
   let renderToPipeableStream =
