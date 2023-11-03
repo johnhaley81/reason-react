@@ -303,10 +303,10 @@ module Event = {
 type abstractElement('a); /* 'a captures any type information to differenciate with others 'a's */
 
 type keyed; /* Flag to mark abstractElement('a) to be keyed */
-type not_keyed; /* Flag to mark abstractElement('a) to be not keyed */
+type notKeyed; /* Flag to mark abstractElement('a) to be not keyed */
 
-type element = abstractElement(not_keyed);
-type element_with_key = abstractElement(keyed);
+type element = abstractElement(notKeyed);
+type elementWithKey = abstractElement(keyed);
 
 type componentLike('props, 'return) = 'props => 'return;
 type component('props, 'a) = componentLike('props, abstractElement('a));
@@ -315,7 +315,7 @@ external null: element = "null";
 external float: float => element = "%identity";
 external int: int => element = "%identity";
 external string: string => element = "%identity";
-external array: array(element_with_key) => element = "%identity";
+external array: array(elementWithKey) => element = "%identity";
 
 [@mel.module "react"]
 external createElement: (component('props, 'a), 'props) => abstractElement('a) =
@@ -338,12 +338,12 @@ external jsxs: (component('props, keyed), 'props) => element =
 
 [@mel.module "react/jsx-runtime"]
 external jsxKeyed:
-  (component('props, 'a), 'props, ~key: string, unit) => element_with_key =
+  (component('props, 'a), 'props, ~key: string, unit) => elementWithKey =
   "jsx";
 
 [@mel.module "react/jsx-runtime"]
 external jsxsKeyed:
-  (component('props, 'a), 'props, ~key: string=?, unit) => element_with_key =
+  (component('props, 'a), 'props, ~key: string=?, unit) => elementWithKey =
   "jsxs";
 
 [@mel.module "react/jsx-runtime"] external jsxFragment: 'element = "Fragment";
@@ -481,7 +481,7 @@ external displayName: component('props, 'a) => option(string) =
 /*
  * Yeah, we know this api isn't great. tl;dr: useReducer instead.
  * It's because useState can take functions or non-function values and treats
- * them differently. Lazy initializer + callback which returns state is the
+ * them differently. Lazy tializer + callback which returns state is the
  * only way to safely have any type of state and be able to update it correctly.
  */
 [@mel.module "react"]
@@ -499,8 +499,8 @@ external useReducer:
 external useReducerWithMapState:
   (
     [@mel.uncurry] (('state, 'action) => 'state),
-    'initialState,
-    [@mel.uncurry] ('initialState => 'state)
+    'tialState,
+    [@mel.uncurry] ('tialState => 'state)
   ) =>
   ('state, 'action => unit) =
   "useReducer";
@@ -825,8 +825,8 @@ module Uncurried = {
   external useReducerWithMapState:
     (
       [@mel.uncurry] (('state, 'action) => 'state),
-      'initialState,
-      [@mel.uncurry] ('initialState => 'state)
+      'tialState,
+      [@mel.uncurry] ('tialState => 'state)
     ) =>
     ('state, (. 'action) => unit) =
     "useReducer";

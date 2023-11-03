@@ -1550,12 +1550,12 @@ external jsxs: (string, domProps('a)) => React.abstractElement('a) = "jsxs";
 
 [@mel.module "react/jsx-runtime"]
 external jsxKeyed:
-  (string, domProps('a), ~key: string=?, unit) => React.element_with_key =
+  (string, domProps('a), ~key: string=?, unit) => React.elementWithKey =
   "jsx";
 
 [@mel.module "react/jsx-runtime"]
 external jsxsKeyed:
-  (string, domProps('a), ~key: string=?, unit) => React.element_with_key =
+  (string, domProps('a), ~key: string=?, unit) => React.elementWithKey =
   "jsxs";
 
 module Server = {
